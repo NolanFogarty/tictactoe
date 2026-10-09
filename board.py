@@ -32,6 +32,7 @@ class Board:
     def move(self, n, character):
         row, col = self.num_to_grid(n)
         self.grid[row][col] = character
+        self.winner = self.win_check()
 
     def num_to_grid(self, n):
         length = len(self.grid)
@@ -39,42 +40,44 @@ class Board:
         y = (n-1) % length
         return (x, y)
 
-    # def winner(board):
-    #     n = len(board)
-    #
-    #     # check rows
-    #     for row in range(n):
-    #         seen = set()
-    #         for col in range(n):
-    #             value = board[row][col]
-    #             if value not in seen:
-    #                 seen.add(value)
-    #         if len(seen) == 1:
-    #             return True
-    #
-    #     # check for cols
-    #     for col in range(n):
-    #         seen = set()
-    #         for row in range(n):
-    #             value = board[row][col]
-    #             if value not in seen:
-    #                 seen.add(value)
-    #         if len(seen) == 1:
-    #             return True
-    #
-    #     # check diagonals
-    #     seen = set()
-    #     for i in range(n):
-    #         seen.add(board[i][i])
-    #     if len(seen) == 1:
-    #         return True
-    #
-    #     seen = set()
-    #     j = n-1
-    #     for i in range(n):
-    #         val = board[i][j]
-    #         seen.add(val)
-    #         j -= 1
-    #     if len(seen) == 1:
-    #         return True
+    def win_check(self):
+        n = len(self.grid)
 
+        # check rows
+        for row in range(n):
+            first = self.grid[row][0]
+            count = 0
+            for col in range(n):
+                if first is not None and self.grid[row][col] == first:
+                    count += 1
+            if count == n:
+                return True
+
+        # check cols
+        for col in range(n):
+            first = self.grid[0][col]
+            count = 0
+            for row in range(n):
+                if first is not None and self.grid[row][col] == first:
+                    count += 1
+            if count == n:
+                return True
+
+        # check diagonals
+        first = self.grid[0][0]
+        count = 0
+        for i in range(n):
+            if first is not None and self.grid[i][i] == first:
+                count += 1
+        if count == n:
+            return True
+
+        first = self.grid[0][n - 1]
+        count = 0
+        for i in range(n):
+            if first is not None and self.grid[i][n - 1 - i] == first:
+                count += 1
+        if count == n:
+            return True
+
+        return False

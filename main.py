@@ -5,7 +5,7 @@ def main():
     board = Board(3)
     print(board)
     player1 = True
-    while True:
+    while not board.winner:
         square = int(input("Select a move: "))
         if board.valid_move(square):
             if player1:
@@ -15,7 +15,10 @@ def main():
             player1 = not player1
         else:
             print("Invalid move. Please try again.")
-        print(board)
+        if board.winner:
+            print("We have a winner!")
+        else:
+            print(board)
     # board.print_board()
 
 if __name__ == "__main__":
