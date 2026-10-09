@@ -1,25 +1,30 @@
+import subprocess
 from board import Board
+from player import Player
+
+def render(board):
+    subprocess.run("clear", shell=True)
+    print(board)
 
 def main():
-    # size = input("Please select a board size: ")
     board = Board(3)
-    print(board)
-    player1 = True
-    while not board.winner:
-        square = int(input("Select a move: "))
+    players = [Player("x"), Player("o")]
+    turn = 0
+    while not board.winner and not board.tie:
+        render(board)
+        player = players[turn % len(players)]
+        square = player.choose_move()
         if board.valid_move(square):
-            if player1:
-                board.move(square, "x")
-            else:
-                board.move(square, "o")
-            player1 = not player1
+            board.move(square, player.symbol)
+            turn += 1
         else:
             print("Invalid move. Please try again.")
         if board.winner:
-            print("We have a winner!")
-        else:
-            print(board)
-    # board.print_board()
+            render(board)
+            print(f"{player.symbol.upper()} wins!")
+        elif board.tie:
+            render(board)
+            print("It's a tie!")
 
 if __name__ == "__main__":
     main()

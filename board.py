@@ -2,6 +2,8 @@ class Board:
     def __init__(self, n: int):
         self.grid = self.create_grid(n)
         self.winner = None
+        self.num_moves = 0
+        self.tie = False
 
     def create_grid(self, n: int):
         return [[None] * n for _ in range(n)]
@@ -22,7 +24,7 @@ class Board:
         return "\n".join(lines)
 
     def valid_move(self, n):
-        in_grid = (n >= 0) and (n <= len(self.grid)**2)
+        in_grid = (n > 0) and (n <= len(self.grid)**2)
         if not in_grid:
             return False
         row, col = self.num_to_grid(n)
@@ -32,7 +34,10 @@ class Board:
     def move(self, n, character):
         row, col = self.num_to_grid(n)
         self.grid[row][col] = character
+        self.num_moves += 1
         self.winner = self.win_check()
+        if self.num_moves == len(self.grid)**2 and not self.winner:
+            self.tie = True
 
     def num_to_grid(self, n):
         length = len(self.grid)
