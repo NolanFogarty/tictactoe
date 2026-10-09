@@ -3,4 +3,7 @@ class Player:
         self.symbol = symbol
 
     def choose_move(self) -> int:
-        return int(input(f"Select a move ({self.symbol}): "))
+        try:
+            return int(input(f"Select a move ({self.symbol}): "))
+        except ValueError:
+            return -1
