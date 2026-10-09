@@ -1,26 +1,43 @@
 class Board:
     def __init__(self, n: int):
-        self.board = self.create_board(n)
-        self.winner = False
+        self.grid = self.create_grid(n)
+        self.winner = None
 
-    def create_board(self, n: int):
+    def create_grid(self, n: int):
         return [[None] * n for _ in range(n)]
     
-    def print_board(self):
+    def __str__(self):
+        lines = []
         index = 0
-        for row in range(len(self.board)):
-            for col in range(len(self.board[0])):
+        for row in range(len(self.grid)):
+            line = ""
+            for col in range(len(self.grid[0])):
                 index += 1
-                value = self.board[row][col]
+                value = self.grid[row][col]
                 if not value:
-                    print("[" + str(index) + "]", end="")
+                    line += "[" + str(index) + "]"
                 else:
-                    print("[" + str(value) + "]", end="")
-            print()
+                    line += "[" + str(value) + "]"
+            lines.append(line)
+        return "\n".join(lines)
 
-    def valid_move(self, row, col):
-        return not self.board[row][col]
+    def valid_move(self, n):
+        in_grid = (n >= 0) and (n <= len(self.grid)**2)
+        if not in_grid:
+            return False
+        row, col = self.num_to_grid(n)
+        not_taken = not self.grid[row][col]
+        return not_taken
 
+    def move(self, n):
+        row, col = self.num_to_grid(n)
+        self.grid[row][col] = "x"
+
+    def num_to_grid(self, n):
+        length = len(self.grid)
+        x = (n-1) % length
+        y = (n-1) // length
+        return (x, y)
 
     # def winner(board):
     #     n = len(board)
