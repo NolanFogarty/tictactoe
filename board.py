@@ -1,3 +1,13 @@
+# Source - https://stackoverflow.com/a/6586061
+# Posted by Kevin Chou
+# Retrieved 2026-10-09, License - CC BY-SA 4.
+class colors: # You may need to change color settings
+    RED = '\033[31m'
+    END = '\033[m'
+    GREEN = '\033[32m'
+    YELLOW = '\033[33m'
+    BLUE = '\033[34m'
+
 class Board:
     def __init__(self, n: int):
         self.grid = self.create_grid(n)
@@ -18,8 +28,10 @@ class Board:
                 value = self.grid[row][col]
                 if not value:
                     line += "[" + str(index) + "]"
+                elif value == "x":
+                    line += "[" + colors.BLUE + str(value) + colors.END +  "]"
                 else:
-                    line += "[" + str(value) + "]"
+                    line += "[" + colors.RED + str(value) + colors.END +  "]"
             lines.append(line)
         return "\n".join(lines)
 
