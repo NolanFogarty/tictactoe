@@ -29,14 +29,14 @@ class Board:
         not_taken = not self.grid[row][col]
         return not_taken
 
-    def move(self, n):
+    def move(self, n, character):
         row, col = self.num_to_grid(n)
-        self.grid[row][col] = "x"
+        self.grid[row][col] = character
 
     def num_to_grid(self, n):
         length = len(self.grid)
-        x = (n-1) % length
-        y = (n-1) // length
+        x = (n-1) // length
+        y = (n-1) % length
         return (x, y)
 
     # def winner(board):
