@@ -14,9 +14,16 @@ class Board:
         self.winner = None
         self.num_moves = 0
         self.tie = False
+        self.valid_positions = self.initial_positions(n)
 
     def create_grid(self, n: int):
         return [[None] * n for _ in range(n)]
+
+    def initial_positions(self, n: int):
+        pos = []
+        for i in range(1, n*n+1):
+            pos.append(i)
+        return pos
     
     def __str__(self):
         lines = []
@@ -44,6 +51,9 @@ class Board:
         return not_taken
 
     def move(self, n, character):
+        print(n)
+        print(self.valid_positions)
+        self.valid_positions.remove(n)
         row, col = self.num_to_grid(n)
         self.grid[row][col] = character
         self.num_moves += 1

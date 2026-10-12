@@ -1,6 +1,6 @@
 import subprocess
 from board import Board
-from player import Player
+from player import Player, AI
 
 def render(board, message=""):
     subprocess.run("clear", shell=True)
@@ -10,7 +10,7 @@ def render(board, message=""):
 
 def main():
     board = Board(3)
-    players = [Player("x"), Player("o")]
+    players = [Player("x"), AI("o", board)]
     turn = 0
     message = ""
     while not board.winner and not board.tie:
